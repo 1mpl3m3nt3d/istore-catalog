@@ -20,7 +20,9 @@ public class CatalogBrandRepository : ICatalogBrandRepository
 
     public async Task<int?> AddAsync(string brand)
     {
-        var addItem = new CatalogBrand { Brand = brand, };
+        var id = await _dbContext.CatalogBrands.CountAsync() + 1; // entities ids starts with 1
+
+        var addItem = new CatalogBrand { Id = id, Brand = brand, };
 
         var item = await _dbContext.CatalogBrands.AddAsync(addItem);
 

@@ -20,7 +20,9 @@ public class CatalogTypeRepository : ICatalogTypeRepository
 
     public async Task<int?> AddAsync(string type)
     {
-        var addItem = new CatalogType { Type = type, };
+        var id = await _dbContext.CatalogTypes.CountAsync() + 1; // entities ids starts with 1
+
+        var addItem = new CatalogType { Id = id, Type = type, };
 
         var item = await _dbContext.CatalogTypes.AddAsync(addItem);
 

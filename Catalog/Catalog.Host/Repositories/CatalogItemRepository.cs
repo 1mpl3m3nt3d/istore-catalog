@@ -27,8 +27,11 @@ public class CatalogItemRepository : ICatalogItemRepository
         string? description = null,
         string? pictureFileName = null)
     {
+        var id = await _dbContext.CatalogItems.CountAsync() + 1; // entities ids starts with 1
+
         var addItem = new CatalogItem
         {
+            Id = id,
             Name = name,
             Price = price,
             AvailableStock = availableStock,
