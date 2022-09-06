@@ -6,7 +6,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /src
 COPY ["Catalog/Catalog.Host/Catalog.Host.csproj", "Catalog/Catalog.Host/"]
-COPY ["Infrastructure/Infrastructure/Infrastructure.csproj", "Infrastructure/Infrastructure/"]
+COPY ["Infrastructure/Infrastructure/Infrastructure/Infrastructure.csproj", "Infrastructure/Infrastructure/Infrastructure/"]
 RUN dotnet restore "Catalog/Catalog.Host/Catalog.Host.csproj"
 COPY . .
 WORKDIR "/src/Catalog/Catalog.Host"
