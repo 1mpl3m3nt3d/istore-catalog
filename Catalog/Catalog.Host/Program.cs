@@ -5,9 +5,11 @@ using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services;
 using Catalog.Host.Services.Interfaces;
 
+var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
 var configuration = GetConfiguration();
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions() { ContentRootPath = baseDirectory });
 
 var connectionString = GetConnectionString(builder);
 
@@ -50,7 +52,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.AddConfiguration();
 
 builder.Services.Configure<CatalogConfig>(builder.Configuration.GetSection(CatalogConfig.Catalog));
-// builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection(DatabaseConfig.Database));
+builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection(DatabaseConfig.Database));
 
 builder.Services.AddAuthorization(configuration);
 
@@ -77,76 +79,16 @@ builder.Services.AddCors(
         "CorsPolicy",
         builder => builder
             .SetIsOriginAllowed((host) => true)
-            .WithOrigins(configuration["SpaUrl"], configuration["PathBase"], configuration["GlobalUrl"], configuration["Authorization:Authority"])
+            .WithOrigins(
+                configuration["Authorization:Authority"],
+                configuration["GlobalUrl"],
+                configuration["PathBase"],
+                configuration["SpaUrl"])
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()));
 
-if (configuration["Nginx:UseNginx"] == "true" || Environment.GetEnvironmentVariable("Nginx__UseNginx") == "true")
-{
-    try
-    {
-        if (configuration["Nginx:UseInitFile"] == "true" || Environment.GetEnvironmentVariable("Nginx__UseInitFile") == "true")
-        {
-            var initFile = configuration["Nginx:InitFilePath"] ?? Environment.GetEnvironmentVariable("Nginx__InitFilePath") ?? "/tmp/app-initialized";
-
-            if (!File.Exists(initFile))
-            {
-                File.Create(initFile).Close();
-            }
-
-            File.SetLastWriteTimeUtc(initFile, DateTime.UtcNow);
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Environment variable <Nginx__UseNginx> is set to 'true', but there was an exception while configuring Initialize File:\n{ex.Message}");
-    }
-
-    try
-    {
-        if (configuration["Nginx:UseUnixSocket"] == "true" || Environment.GetEnvironmentVariable("Nginx__UseUnixSocket") == "true")
-        {
-            var unixSocket = configuration["Nginx:UnixSocketPath"] ?? Environment.GetEnvironmentVariable("Nginx__UnixSocketPath") ?? "/tmp/nginx.socket";
-
-            builder.WebHost.ConfigureKestrel(kestrel => kestrel.ListenUnixSocket(unixSocket));
-        }
-        else
-        {
-            var portParsed = int.TryParse(configuration["PORT"] ?? Environment.GetEnvironmentVariable("PORT"), out var port);
-
-            if (portParsed)
-            {
-                builder.WebHost.ConfigureKestrel(kestrel => kestrel.ListenAnyIP(port));
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Environment variable <Nginx__UseNginx> is set to 'true', but there was an exception while configuring Kestrel:\n{ex.Message}");
-    }
-}
-else
-{
-    var portEnv = configuration["PORT"] ?? Environment.GetEnvironmentVariable("PORT");
-
-    try
-    {
-        if (portEnv != null)
-        {
-            var portParsed = int.TryParse(portEnv, out var port);
-
-            if (portParsed)
-            {
-                builder.WebHost.ConfigureKestrel(kestrel => kestrel.ListenAnyIP(port));
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Environment variable <PORT> is set to '{portEnv}', but there was an exception while configuring Kestrel:\n{ex.Message}");
-    }
-}
+builder.AddNginxConfiguration();
 
 var app = builder.Build();
 
@@ -178,7 +120,7 @@ app.Run();
 IConfiguration GetConfiguration()
 {
     var builder = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
+        .SetBasePath(baseDirectory)
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables()
         .AddCommandLine(args);
@@ -205,9 +147,10 @@ string GetConnectionString(WebApplicationBuilder builder)
         var uid = userInfo[0];
         var password = userInfo[1];
 
-        var keyValueConnectionString = $"server={host};port={port};database={database};uid={uid};password={password};sslmode=require;Trust Server Certificate=true;";
+        var keyValueConnectionString =
+            $"server={host};port={port};database={database};uid={uid};password={password};sslmode=require;Trust Server Certificate=true;";
 
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Production")
+        if (!builder.Environment.IsProduction())
         {
             keyValueConnectionString += "Include Error Detail=true;";
         }
@@ -236,7 +179,8 @@ void InitializeDB(IHost host)
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"An error occurred while creating the Database!\n[Ex: {ex.Message}]\n[InnerEx: {ex.InnerException?.Message}]");
+            logger.LogError(ex, $"An error occurred while creating the Database!\n" +
+                $"[Ex: {ex.Message}]\n[InnerEx: {ex.InnerException?.Message}]");
         }
     }
 }
