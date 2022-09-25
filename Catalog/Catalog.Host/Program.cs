@@ -75,18 +75,18 @@ builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWra
 
 builder.Services.AddCors(
     options => options
-    .AddPolicy(
-        "CorsPolicy",
-        builder => builder
-            .SetIsOriginAllowed((host) => true)
-            .WithOrigins(
-                configuration["Authorization:Authority"],
-                configuration["GlobalUrl"],
-                configuration["PathBase"],
-                configuration["SpaUrl"])
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()));
+        .AddPolicy(
+            "CorsPolicy",
+            builder => builder
+                .SetIsOriginAllowed((host) => true)
+                .WithOrigins(
+                    configuration["Authorization:Authority"],
+                    configuration["GlobalUrl"],
+                    configuration["PathBase"],
+                    configuration["SpaUrl"])
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()));
 
 builder.AddNginxConfiguration();
 
