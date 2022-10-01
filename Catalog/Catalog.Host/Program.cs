@@ -50,6 +50,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.AddConfiguration();
+builder.AddHttpLoggingConfiguration();
 
 builder.Services.Configure<CatalogConfig>(builder.Configuration.GetSection(CatalogConfig.Catalog));
 builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection(DatabaseConfig.Database));
@@ -82,7 +83,7 @@ builder.Services.AddCors(
                 .WithOrigins(
                     configuration["Authorization:Authority"],
                     configuration["GlobalUrl"],
-                    configuration["PathBase"],
+                    configuration["CatalogApi"],
                     configuration["SpaUrl"])
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -92,10 +93,32 @@ builder.AddNginxConfiguration();
 
 var app = builder.Build();
 
+var basePath = configuration["BasePath"];
+
+if (!string.IsNullOrEmpty(basePath))
+{
+    app.UsePathBase(basePath);
+}
+
+if (app.Configuration["HttpLogging"] == "true")
+{
+    app.UseHttpLogging();
+
+    app.Use(async (ctx, next) =>
+    {
+        var remoteAddress = ctx.Connection.RemoteIpAddress;
+        var remotePort = ctx.Connection.RemotePort;
+
+        app.Logger.LogInformation($"Request Remote: {remoteAddress}:{remotePort}");
+
+        await next(ctx);
+    });
+}
+
 app.UseSwagger()
     .UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"{configuration["PathBase"]}/swagger/v1/swagger.json", "Catalog.API V1");
+        setup.SwaggerEndpoint($"{configuration["CatalogApi"]}/swagger/v1/swagger.json", "Catalog.API V1");
         setup.OAuthClientId("catalogswaggerui");
         setup.OAuthAppName("Catalog Swagger UI");
     });
