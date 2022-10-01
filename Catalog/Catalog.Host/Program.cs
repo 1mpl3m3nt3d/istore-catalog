@@ -118,7 +118,7 @@ if (app.Configuration["HttpLogging"] == "true")
 app.UseSwagger()
     .UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"{configuration["CatalogApi"]}/swagger/v1/swagger.json", "Catalog.API V1");
+        setup.SwaggerEndpoint("v1/swagger.json", "Catalog.API V1");
         setup.OAuthClientId("catalogswaggerui");
         setup.OAuthAppName("Catalog Swagger UI");
     });
