@@ -79,8 +79,8 @@ public class CatalogItemRepository : ICatalogItemRepository
     public async Task<PaginatedItems<CatalogItem>?> GetByPageAsync(
         int pageSize,
         int pageIndex,
-        int[] ? brandFilter = null,
-        int[] ? typeFilter = null)
+        int[]? brandFilter = null,
+        int[]? typeFilter = null)
     {
         IQueryable<CatalogItem> query = _dbContext.CatalogItems;
 

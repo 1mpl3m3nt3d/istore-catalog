@@ -23,8 +23,8 @@ public interface ICatalogItemRepository
     Task<PaginatedItems<CatalogItem>?> GetByPageAsync(
         int pageSize,
         int pageIndex,
-        int[] ? brandFilter = null,
-        int[] ? typeFilter = null);
+        int[]? brandFilter = null,
+        int[]? typeFilter = null);
 
     Task<IEnumerable<CatalogItem>?> GetProductsAsync();
 
