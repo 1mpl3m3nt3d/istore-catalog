@@ -10,8 +10,8 @@ public interface ICatalogService
     Task<PaginatedItemsResponse<CatalogItemDto>?> GetCatalogItemsAsync(
         int pageSize = 10,
         int pageIndex = 0,
-        int? brandIdFilter = null,
-        int? typeIdFilter = null);
+        int[] ? brandIdFilter = null,
+        int[] ? typeIdFilter = null);
 
     Task<CatalogItemDto?> GetCatalogItemByIdAsync(int id);
 

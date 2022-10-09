@@ -47,15 +47,12 @@ public class CatalogBffController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> GetCatalogItems(PaginatedItemsRequest request)
     {
-        var brandIdFilter = request.BrandIdFilter == 0 ? null : request.BrandIdFilter;
-        var typeIdFilter = request.TypeIdFilter == 0 ? null : request.TypeIdFilter;
-
         var result =
             await _catalogService.GetCatalogItemsAsync(
                 request.PageSize,
                 request.PageIndex,
-                brandIdFilter,
-                typeIdFilter);
+                request.BrandIdFilter,
+                request.TypeIdFilter);
 
         if (result != null && result.Data.Any())
         {

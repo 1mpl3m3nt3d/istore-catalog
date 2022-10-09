@@ -90,8 +90,8 @@ public class CatalogServiceTest
         // arrange
         var testPageIndex = 1000;
         var testPageSize = 10000;
-        var brandIdFilter = 2;
-        var typeIdFilter = 2;
+        var brandIdFilter = Array.Empty<int>();
+        var typeIdFilter = Array.Empty<int>();
         PaginatedItems<CatalogItem> item = null!;
 
         _catalogItemRepository
@@ -100,8 +100,8 @@ public class CatalogServiceTest
                     s.GetByPageAsync(
                         It.Is<int>(i => i == testPageSize),
                         It.Is<int>(i => i == testPageIndex),
-                        It.Is<int>(i => i == brandIdFilter),
-                        It.Is<int>(i => i == typeIdFilter)))
+                        It.Is<int[]>(i => i == brandIdFilter),
+                        It.Is<int[]>(i => i == typeIdFilter)))
             .ReturnsAsync(item);
 
         // act
@@ -118,8 +118,8 @@ public class CatalogServiceTest
         var testPageIndex = 0;
         var testPageSize = 4;
         var testTotalCount = 12;
-        var brandIdFilter = 2;
-        var typeIdFilter = 2;
+        var brandIdFilter = new int[2];
+        var typeIdFilter = new int[2];
 
         var catalogItemSuccess = new CatalogItem() { Id = 0, Name = "Product", };
 
@@ -137,8 +137,8 @@ public class CatalogServiceTest
                     s.GetByPageAsync(
                         It.Is<int>(i => i == testPageSize),
                         It.Is<int>(i => i == testPageIndex),
-                        It.Is<int?>(i => i == brandIdFilter),
-                        It.Is<int?>(i => i == typeIdFilter)))
+                        It.Is<int[]?>(i => i == brandIdFilter),
+                        It.Is<int[]?>(i => i == typeIdFilter)))
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper

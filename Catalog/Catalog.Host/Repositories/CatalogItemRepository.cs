@@ -79,19 +79,19 @@ public class CatalogItemRepository : ICatalogItemRepository
     public async Task<PaginatedItems<CatalogItem>?> GetByPageAsync(
         int pageSize,
         int pageIndex,
-        int? brandFilter,
-        int? typeFilter)
+        int[] ? brandFilter = null,
+        int[] ? typeFilter = null)
     {
         IQueryable<CatalogItem> query = _dbContext.CatalogItems;
 
-        if (brandFilter.HasValue)
+        if (brandFilter?.Length > 0)
         {
-            query = query.Where(w => w.CatalogBrandId == brandFilter.Value);
+            query = query.Where(w => brandFilter.Contains(w.CatalogBrandId));
         }
 
-        if (typeFilter.HasValue)
+        if (typeFilter?.Length > 0)
         {
-            query = query.Where(w => w.CatalogTypeId == typeFilter.Value);
+            query = query.Where(w => typeFilter.Contains(w.CatalogTypeId));
         }
 
         var totalItems = await query.LongCountAsync();
