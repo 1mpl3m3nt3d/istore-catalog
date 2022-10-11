@@ -117,20 +117,4 @@ public class CatalogBffController : ControllerBase
             return NotFound();
         }
     }
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(UserIdResponse<int>), (int)HttpStatusCode.OK)]
-    public IActionResult GetUserId()
-    {
-        var userIdString = User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
-
-        var userIdNum = int.TryParse(userIdString, out var userId);
-
-        _logger.LogWarning($"User [ id: {userId} ] logged in successfully!");
-
-        var response = new UserIdResponse<int>() { Id = userId };
-
-        return Ok(response);
-    }
 }
