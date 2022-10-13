@@ -1,6 +1,3 @@
-using Catalog.Host.Data;
-using Catalog.Host.Data.Entities;
-
 namespace Catalog.Host.Repositories.Interfaces;
 
 public interface ICatalogItemRepository
@@ -16,17 +13,6 @@ public interface ICatalogItemRepository
 
     Task<int?> DeleteAsync(
         int id);
-
-    Task<CatalogItem?> GetByIdAsync(
-        int id);
-
-    Task<PaginatedItems<CatalogItem>?> GetByPageAsync(
-        int pageSize,
-        int pageIndex,
-        int[]? brandFilter = null,
-        int[]? typeFilter = null);
-
-    Task<IEnumerable<CatalogItem>?> GetProductsAsync();
 
     Task<int?> UpdateAsync(
         int id,

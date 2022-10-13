@@ -8,11 +8,7 @@ namespace Catalog.Host.Services;
 
 public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogService
 {
-    private readonly ICatalogBrandRepository _catalogBrandRepository;
-
-    private readonly ICatalogItemRepository _catalogItemRepository;
-
-    private readonly ICatalogTypeRepository _catalogTypeRepository;
+    private readonly ICatalogRepository _catalogRepository;
 
     private readonly IMapper _mapper;
 
@@ -20,14 +16,10 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
         ILogger<BaseDataService<ApplicationDbContext>> logger,
         IMapper mapper,
-        ICatalogBrandRepository catalogBrandRepository,
-        ICatalogItemRepository catalogItemRepository,
-        ICatalogTypeRepository catalogTypeRepository)
+        ICatalogRepository catalogRepository)
         : base(dbContextWrapper, logger)
     {
-        _catalogBrandRepository = catalogBrandRepository;
-        _catalogItemRepository = catalogItemRepository;
-        _catalogTypeRepository = catalogTypeRepository;
+        _catalogRepository = catalogRepository;
         _mapper = mapper;
     }
 
@@ -36,7 +28,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         return await ExecuteSafeAsync(
             async () =>
             {
-                var result = await _catalogBrandRepository.GetBrandsAsync();
+                var result = await _catalogRepository.GetBrandsAsync();
 
                 if (result == null)
                 {
@@ -55,7 +47,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogItemRepository.GetByPageAsync(
+            var result = await _catalogRepository.GetByPageAsync(
                 pageSize,
                 pageIndex,
                 brandIdFilter,
@@ -81,7 +73,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         return await ExecuteSafeAsync(
             async () =>
             {
-                var result = await _catalogItemRepository.GetByIdAsync(id);
+                var result = await _catalogRepository.GetByIdAsync(id);
 
                 if (result == null)
                 {
@@ -97,7 +89,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         return await ExecuteSafeAsync(
             async () =>
             {
-                var result = await _catalogItemRepository.GetProductsAsync();
+                var result = await _catalogRepository.GetProductsAsync();
 
                 if (result == null)
                 {
@@ -113,7 +105,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         return await ExecuteSafeAsync(
             async () =>
             {
-                var result = await _catalogTypeRepository.GetTypesAsync();
+                var result = await _catalogRepository.GetTypesAsync();
 
                 if (result == null)
                 {

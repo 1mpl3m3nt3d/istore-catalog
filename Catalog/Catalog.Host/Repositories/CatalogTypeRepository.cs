@@ -49,20 +49,6 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         }
     }
 
-    public async Task<CatalogType?> GetByTypeIdAsync(int id)
-    {
-        var result = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);
-
-        return result;
-    }
-
-    public async Task<IEnumerable<CatalogType>?> GetTypesAsync()
-    {
-        var result = await _dbContext.CatalogTypes.OrderBy(ct => ct.Type).ToListAsync();
-
-        return result;
-    }
-
     public async Task<int?> UpdateAsync(int id, string type)
     {
         var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);

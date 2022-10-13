@@ -2,13 +2,9 @@ namespace Catalog.UnitTests.Services;
 
 public class CatalogServiceTest
 {
-    private readonly Mock<ICatalogBrandRepository> _catalogBrandRepository;
-
-    private readonly Mock<ICatalogItemRepository> _catalogItemRepository;
-
     private readonly ICatalogService _catalogService;
 
-    private readonly Mock<ICatalogTypeRepository> _catalogTypeRepository;
+    private readonly Mock<ICatalogRepository> _catalogRepository;
 
     private readonly Mock<IDbContextTransaction> _dbContextTransaction;
 
@@ -20,9 +16,7 @@ public class CatalogServiceTest
 
     public CatalogServiceTest()
     {
-        _catalogBrandRepository = new Mock<ICatalogBrandRepository>();
-        _catalogItemRepository = new Mock<ICatalogItemRepository>();
-        _catalogTypeRepository = new Mock<ICatalogTypeRepository>();
+        _catalogRepository = new Mock<ICatalogRepository>();
         _dbContextTransaction = new Mock<IDbContextTransaction>();
         _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
         _logger = new Mock<ILogger<CatalogService>>();
@@ -34,16 +28,14 @@ public class CatalogServiceTest
             _dbContextWrapper.Object,
             _logger.Object,
             _mapper.Object,
-            _catalogBrandRepository.Object,
-            _catalogItemRepository.Object,
-            _catalogTypeRepository.Object);
+            _catalogRepository.Object);
     }
 
     [Fact]
     public async Task GetBrandsAsync_Failed()
     {
         // arrange
-        _catalogBrandRepository
+        _catalogRepository
             .Setup(s => s.GetBrandsAsync())
             .ReturnsAsync((Func<IEnumerable<CatalogBrand>?>)null!);
 
@@ -68,7 +60,7 @@ public class CatalogServiceTest
             new CatalogBrandDto() { Id = 1, Brand = "Brand", },
         };
 
-        _catalogBrandRepository.Setup(s => s.GetBrandsAsync()).ReturnsAsync(catalogBrandsSuccess);
+        _catalogRepository.Setup(s => s.GetBrandsAsync()).ReturnsAsync(catalogBrandsSuccess);
 
         _mapper
             .Setup(
@@ -94,7 +86,7 @@ public class CatalogServiceTest
         var typeIdFilter = Array.Empty<int>();
         PaginatedItems<CatalogItem> item = null!;
 
-        _catalogItemRepository
+        _catalogRepository
             .Setup(
                 s =>
                     s.GetByPageAsync(
@@ -131,7 +123,7 @@ public class CatalogServiceTest
             TotalCount = testTotalCount,
         };
 
-        _catalogItemRepository
+        _catalogRepository
             .Setup(
                 s =>
                     s.GetByPageAsync(
@@ -169,7 +161,7 @@ public class CatalogServiceTest
 
         var catalogItemDtoFailed = new CatalogItemDto() { };
 
-        _catalogItemRepository
+        _catalogRepository
             .Setup(s => s.GetByIdAsync(It.Is<int>(i => i == catalogItemFailed.Id)))
             .Returns((Func<CatalogItem>)null!);
 
@@ -202,7 +194,7 @@ public class CatalogServiceTest
             Description = "Description",
         };
 
-        _catalogItemRepository
+        _catalogRepository
             .Setup(s => s.GetByIdAsync(It.Is<int>(i => i == catalogItemSuccess.Id)))
             .ReturnsAsync(catalogItemSuccess);
 
@@ -217,7 +209,7 @@ public class CatalogServiceTest
     public async Task GetProductsAsync_Failed()
     {
         // arrange
-        _catalogItemRepository
+        _catalogRepository
             .Setup(s => s.GetProductsAsync())
             .ReturnsAsync((Func<IEnumerable<CatalogItem>?>)null!);
 
@@ -256,7 +248,7 @@ public class CatalogServiceTest
             },
         };
 
-        _catalogItemRepository
+        _catalogRepository
             .Setup(s => s.GetProductsAsync())
             .ReturnsAsync(catalogItemsSuccess);
 
@@ -282,7 +274,7 @@ public class CatalogServiceTest
 
         IEnumerable<CatalogTypeDto> catalogTypesDtoFailed = new List<CatalogTypeDto>() { };
 
-        _catalogTypeRepository
+        _catalogRepository
             .Setup(s => s.GetTypesAsync())
             .ReturnsAsync((Func<IEnumerable<CatalogType>?>)null!);
 
@@ -307,7 +299,7 @@ public class CatalogServiceTest
             new CatalogTypeDto() { Id = 1, Type = "Type", },
         };
 
-        _catalogTypeRepository.Setup(s => s.GetTypesAsync()).ReturnsAsync(catalogTypesSuccess);
+        _catalogRepository.Setup(s => s.GetTypesAsync()).ReturnsAsync(catalogTypesSuccess);
 
         _mapper
             .Setup(

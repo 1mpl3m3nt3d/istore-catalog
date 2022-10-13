@@ -59,12 +59,12 @@ builder.Services.AddAuthorization(configuration);
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddTransient<ICatalogRepository, CatalogRepository>();
 builder.Services.AddTransient<ICatalogBrandRepository, CatalogBrandRepository>();
 builder.Services.AddTransient<ICatalogItemRepository, CatalogItemRepository>();
 builder.Services.AddTransient<ICatalogTypeRepository, CatalogTypeRepository>();
 
 builder.Services.AddTransient<ICatalogService, CatalogService>();
-
 builder.Services.AddTransient<ICatalogBrandService, CatalogBrandService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<ICatalogTypeService, CatalogTypeService>();
@@ -79,7 +79,7 @@ builder.Services.AddCors(
         .AddPolicy(
             "CorsPolicy",
             builder => builder
-                .SetIsOriginAllowed((host) => true)
+                //.SetIsOriginAllowed((host) => true)
                 .WithOrigins(
                     configuration["Authorization:Authority"],
                     configuration["GlobalUrl"],

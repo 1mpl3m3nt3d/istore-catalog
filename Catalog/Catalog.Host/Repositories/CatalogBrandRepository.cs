@@ -49,20 +49,6 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         }
     }
 
-    public async Task<IEnumerable<CatalogBrand>?> GetBrandsAsync()
-    {
-        var result = await _dbContext.CatalogBrands.OrderBy(cb => cb.Brand).ToListAsync();
-
-        return result;
-    }
-
-    public async Task<CatalogBrand?> GetByBrandIdAsync(int id)
-    {
-        var result = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);
-
-        return result;
-    }
-
     public async Task<int?> UpdateAsync(int id, string brand)
     {
         var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);

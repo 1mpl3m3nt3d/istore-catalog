@@ -1,4 +1,4 @@
-namespace Catalog.Host.Models.Responses;
+﻿namespace Catalog.Host.Models.Responses;
 
 public class CreateBrandResponse<T>
 {
