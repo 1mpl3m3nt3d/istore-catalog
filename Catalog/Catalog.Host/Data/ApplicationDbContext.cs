@@ -8,10 +8,10 @@ public class ApplicationDbContext : DbContext
 {
     private readonly DatabaseConfig _config;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IOptionsSnapshot<DatabaseConfig> config)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IOptionsMonitor<DatabaseConfig> config)
         : base(options)
     {
-        _config = config.Value;
+        _config = config.CurrentValue;
     }
 
     public DbSet<CatalogBrand> CatalogBrands { get; set; } = null!;

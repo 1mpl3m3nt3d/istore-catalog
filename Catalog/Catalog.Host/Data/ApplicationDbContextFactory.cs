@@ -4,9 +4,9 @@ namespace Catalog.Host.Data;
 
 public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
-    private readonly IOptionsSnapshot<DatabaseConfig> _options;
+    private readonly IOptionsMonitor<DatabaseConfig> _options;
 
-    public ApplicationDbContextFactory(IOptionsSnapshot<DatabaseConfig> options)
+    public ApplicationDbContextFactory(IOptionsMonitor<DatabaseConfig> options)
     {
         _options = options;
     }

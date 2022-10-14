@@ -14,8 +14,5 @@ public class MappingProfile : Profile
 
         CreateMap<CatalogBrand, CatalogBrandDto>().ReverseMap();
         CreateMap<CatalogType, CatalogTypeDto>().ReverseMap();
-        CreateMap<IEnumerable<CatalogBrand>?, IEnumerable<CatalogBrandDto>?>().ReverseMap();
-        CreateMap<IEnumerable<CatalogItem>?, IEnumerable<CatalogItemDto>?>().ReverseMap();
-        CreateMap<IEnumerable<CatalogType>?, IEnumerable<CatalogTypeDto>?>().ReverseMap();
     }
 }
