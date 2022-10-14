@@ -5,7 +5,7 @@ global using System.Reflection;
 global using AutoMapper;
 
 global using Infrastructure;
-global using Infrastructure.Configuration;
+global using Infrastructure.Configurations;
 global using Infrastructure.Extensions;
 global using Infrastructure.Filters;
 global using Infrastructure.Identity;
