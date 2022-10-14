@@ -1,7 +1,5 @@
 using Catalog.Host.Configurations;
 
-using Microsoft.EntityFrameworkCore.Design;
-
 namespace Catalog.Host.Data;
 
 public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

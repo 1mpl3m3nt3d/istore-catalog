@@ -5,10 +5,6 @@ using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services;
 using Catalog.Host.Services.Interfaces;
 
-using Infrastructure.Configuration;
-
-using Microsoft.AspNetCore.HttpOverrides;
-
 var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
 var webApplicationOptions = new WebApplicationOptions()
