@@ -10,7 +10,18 @@ public static class DbInitializer
 
         await context.SaveChangesAsync();
 
-        /*
+        //await CreateDatabases(context, logger);
+    }
+
+    /*
+    private static async Task CreateDatabases(ApplicationDbContext context, ILogger logger)
+    {
+        await Task.Delay(10000);
+
+        await context.Database.MigrateAsync();
+
+        await context.SaveChangesAsync();
+
         var isCreated = await context.Database.EnsureCreatedAsync();
 
         if (isCreated)
@@ -42,38 +53,36 @@ public static class DbInitializer
 
             await context.SaveChangesAsync();
         }
-        */
     }
 
-    /*
     private static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands()
     {
         return new List<CatalogBrand>()
         {
-            new CatalogBrand() { Brand = "A4Tech" },                  // 1
-            new CatalogBrand() { Brand = "AMD" },                     // 2
-            new CatalogBrand() { Brand = "Aorus" },                   // 3
-            new CatalogBrand() { Brand = "Apple" },                   // 4
-            new CatalogBrand() { Brand = "Asus" },                    // 5
-            new CatalogBrand() { Brand = "Bloody" },                  // 6
-            new CatalogBrand() { Brand = "Edifier" },                 // 7
-            new CatalogBrand() { Brand = "Gigabyte" },                // 8
-            new CatalogBrand() { Brand = "Hator" },                   // 9
-            new CatalogBrand() { Brand = "Honor" },                   // 10
-            new CatalogBrand() { Brand = "Huawei" },                  // 11
-            new CatalogBrand() { Brand = "HyperX" },                  // 12
-            new CatalogBrand() { Brand = "Intel" },                   // 13
-            new CatalogBrand() { Brand = "Keychron" },                // 14
-            new CatalogBrand() { Brand = "Kingston" },                // 15
-            new CatalogBrand() { Brand = "Logitech" },                // 16
-            new CatalogBrand() { Brand = "MSI" },                     // 17
-            new CatalogBrand() { Brand = "Razer" },                   // 18
-            new CatalogBrand() { Brand = "Samsung" },                 // 19
-            new CatalogBrand() { Brand = "Seagate" },                 // 20
-            new CatalogBrand() { Brand = "Sony" },                    // 21
-            new CatalogBrand() { Brand = "SteelSeries" },             // 22
-            new CatalogBrand() { Brand = "Varmilo" },                 // 23
-            new CatalogBrand() { Brand = "Western Digital" },         // 24
+            new CatalogBrand() { Name = "A4Tech" },                  // 1
+            new CatalogBrand() { Name = "AMD" },                     // 2
+            new CatalogBrand() { Name = "Aorus" },                   // 3
+            new CatalogBrand() { Name = "Apple" },                   // 4
+            new CatalogBrand() { Name = "Asus" },                    // 5
+            new CatalogBrand() { Name = "Bloody" },                  // 6
+            new CatalogBrand() { Name = "Edifier" },                 // 7
+            new CatalogBrand() { Name = "Gigabyte" },                // 8
+            new CatalogBrand() { Name = "Hator" },                   // 9
+            new CatalogBrand() { Name = "Honor" },                   // 10
+            new CatalogBrand() { Name = "Huawei" },                  // 11
+            new CatalogBrand() { Name = "HyperX" },                  // 12
+            new CatalogBrand() { Name = "Intel" },                   // 13
+            new CatalogBrand() { Name = "Keychron" },                // 14
+            new CatalogBrand() { Name = "Kingston" },                // 15
+            new CatalogBrand() { Name = "Logitech" },                // 16
+            new CatalogBrand() { Name = "MSI" },                     // 17
+            new CatalogBrand() { Name = "Razer" },                   // 18
+            new CatalogBrand() { Name = "Samsung" },                 // 19
+            new CatalogBrand() { Name = "Seagate" },                 // 20
+            new CatalogBrand() { Name = "Sony" },                    // 21
+            new CatalogBrand() { Name = "SteelSeries" },             // 22
+            new CatalogBrand() { Name = "Varmilo" },                 // 23
+            new CatalogBrand() { Name = "Western Digital" },         // 24
         };
     }
 
@@ -81,30 +90,30 @@ public static class DbInitializer
     {
         return new List<CatalogType>()
         {
-            new CatalogType() { Type = "Computer Case" },             // 1
-            new CatalogType() { Type = "Desk Mount" },                // 2
-            new CatalogType() { Type = "Gamepad" },                   // 3
-            new CatalogType() { Type = "Graphics Card (GPU)" },       // 4
-            new CatalogType() { Type = "Hard-Disk Drive (HDD)" },     // 5
-            new CatalogType() { Type = "Headphones" },                // 6
-            new CatalogType() { Type = "Keyboard" },                  // 7
-            new CatalogType() { Type = "Laptop" },                    // 8
-            new CatalogType() { Type = "Memory (RAM)" },              // 9
-            new CatalogType() { Type = "Microphone" },                // 10
-            new CatalogType() { Type = "Monitor" },                   // 11
-            new CatalogType() { Type = "Motherboard" },               // 12
-            new CatalogType() { Type = "Mouse" },                     // 13
-            new CatalogType() { Type = "MousePad" },                  // 14
-            new CatalogType() { Type = "Processor (CPU)" },           // 15
-            new CatalogType() { Type = "Power Supply Unit (PSU)" },   // 16
-            new CatalogType() { Type = "Solid-State Drive (SSD)" },   // 17
-            new CatalogType() { Type = "SmartPhone" },                // 18
-            new CatalogType() { Type = "SmartWatch" },                // 19
-            new CatalogType() { Type = "Speakers" },                  // 20
-            new CatalogType() { Type = "Subwoofer" },                 // 21
-            new CatalogType() { Type = "Tablet" },                    // 22
-            new CatalogType() { Type = "Web Camera" },                // 23
-            new CatalogType() { Type = "Wrist Rest" },                // 24
+            new CatalogType() { Name = "Computer Case" },             // 1
+            new CatalogType() { Name = "Desk Mount" },                // 2
+            new CatalogType() { Name = "Gamepad" },                   // 3
+            new CatalogType() { Name = "Graphics Card (GPU)" },       // 4
+            new CatalogType() { Name = "Hard-Disk Drive (HDD)" },     // 5
+            new CatalogType() { Name = "Headphones" },                // 6
+            new CatalogType() { Name = "Keyboard" },                  // 7
+            new CatalogType() { Name = "Laptop" },                    // 8
+            new CatalogType() { Name = "Memory (RAM)" },              // 9
+            new CatalogType() { Name = "Microphone" },                // 10
+            new CatalogType() { Name = "Monitor" },                   // 11
+            new CatalogType() { Name = "Motherboard" },               // 12
+            new CatalogType() { Name = "Mouse" },                     // 13
+            new CatalogType() { Name = "MousePad" },                  // 14
+            new CatalogType() { Name = "Processor (CPU)" },           // 15
+            new CatalogType() { Name = "Power Supply Unit (PSU)" },   // 16
+            new CatalogType() { Name = "Solid-State Drive (SSD)" },   // 17
+            new CatalogType() { Name = "SmartPhone" },                // 18
+            new CatalogType() { Name = "SmartWatch" },                // 19
+            new CatalogType() { Name = "Speakers" },                  // 20
+            new CatalogType() { Name = "Subwoofer" },                 // 21
+            new CatalogType() { Name = "Tablet" },                    // 22
+            new CatalogType() { Name = "Web Camera" },                // 23
+            new CatalogType() { Name = "Wrist Rest" },                // 24
         };
     }
 
@@ -123,6 +132,7 @@ public static class DbInitializer
                 Name = "R1700BTs",
                 Price = 4599.00M,
                 PictureFileName = "r1700bts.webp",
+                Warranty = 12,
             },
             new CatalogItem
             {
@@ -136,6 +146,7 @@ public static class DbInitializer
                 Name = "C270",
                 Price = 1299.00M,
                 PictureFileName = "c270hd.webp",
+                Warranty = 12,
             },
             new CatalogItem
             {
@@ -148,6 +159,7 @@ public static class DbInitializer
                 Name = "K3 Version 2",
                 Price = 2990.00M,
                 PictureFileName = "k3version2.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -160,6 +172,7 @@ public static class DbInitializer
                 Name = "Q1",
                 Price = 4700.00M,
                 PictureFileName = "q1qmk.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -173,6 +186,7 @@ public static class DbInitializer
                 Name = "Q2",
                 Price = 4800.00M,
                 PictureFileName = "q2qmk.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -186,6 +200,7 @@ public static class DbInitializer
                 Name = "K360",
                 Price = 1399.00M,
                 PictureFileName = "k360.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -199,6 +214,7 @@ public static class DbInitializer
                 Name = "MX Keys Advanced",
                 Price = 2999.00M,
                 PictureFileName = "mxkeys.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -212,6 +228,7 @@ public static class DbInitializer
                 Name = "BlackWidow V3",
                 Price = 2799.00M,
                 PictureFileName = "blackwidowv3tkl.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -222,6 +239,7 @@ public static class DbInitializer
                 Name = "Miya68-C Summit Series EC V2 Daisy",
                 Price = 5900.00M,
                 PictureFileName = "miya68csummitecswitchv2.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -232,6 +250,7 @@ public static class DbInitializer
                 Name = "MA87 Lovebirds-You Series EC V2 Daisy",
                 Price = 6100.00M,
                 PictureFileName = "ma87lovebirdsyou.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -242,6 +261,7 @@ public static class DbInitializer
                 Name = "MA87M V2 Summit Series R2 EC V2 Daisy",
                 Price = 6000.00M,
                 PictureFileName = "ma87mv2summitr2ecv2daisy.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -252,6 +272,7 @@ public static class DbInitializer
                 Name = "VA104S Phoenix Series EC V2 Daisy",
                 Price = 6300.00M,
                 PictureFileName = "va104sphoenix.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -262,6 +283,7 @@ public static class DbInitializer
                 Name = "VBM108V2 Crane of Lure Series EC V2 Daisy",
                 Price = 6800.00M,
                 PictureFileName = "vbm108v2craneoflure.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -275,6 +297,7 @@ public static class DbInitializer
                 Name = "G305 LIGHTSPEED",
                 Price = 1899.00M,
                 PictureFileName = "g305lightspeedblue.webp",
+                Warranty = 12,
             },
             new CatalogItem
             {
@@ -288,6 +311,7 @@ public static class DbInitializer
                 Name = "G502 SE HERO",
                 Price = 1699.00M,
                 PictureFileName = "g502sehero.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -301,6 +325,7 @@ public static class DbInitializer
                 Name = "MX Master 3 Advanced",
                 Price = 2899.00M,
                 PictureFileName = "mxmaster3.webp",
+                Warranty = 36,
             },
         };
     }

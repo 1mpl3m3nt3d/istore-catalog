@@ -6,9 +6,11 @@ public class CatalogItemDto
 
     public string Name { get; set; } = null!;
 
+    public int AvailableStock { get; set; }
+
     public decimal Price { get; set; }
 
-    public int AvailableStock { get; set; }
+    public int Warranty { get; set; }
 
     public string? Description { get; set; }
 

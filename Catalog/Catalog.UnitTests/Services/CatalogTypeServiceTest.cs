@@ -21,7 +21,7 @@ public class CatalogTypeServiceTest
         _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
         _logger = new Mock<ILogger<CatalogTypeService>>();
 
-        _testItem = new CatalogType() { Id = 1, Type = "Type", };
+        _testItem = new CatalogType() { Id = 1, Name = "Type", };
 
         _dbContextWrapper.Setup(s => s.BeginTransactionAsync(It.IsAny<CancellationToken>())).ReturnsAsync(_dbContextTransaction.Object);
 
@@ -38,11 +38,11 @@ public class CatalogTypeServiceTest
         int? testResult = null;
 
         _catalogTypeRepository
-            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Type)))
+            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(testResult);
 
         // act
-        var result = await _catalogTypeService.AddAsync(_testItem.Type);
+        var result = await _catalogTypeService.AddAsync(_testItem.Name);
 
         // assert
         result.Should().Be(testResult);
@@ -53,11 +53,11 @@ public class CatalogTypeServiceTest
     {
         // arrange
         _catalogTypeRepository
-            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Type)))
+            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(_testItem.Id);
 
         // act
-        var result = await _catalogTypeService.AddAsync(_testItem.Type);
+        var result = await _catalogTypeService.AddAsync(_testItem.Name);
 
         // assert
         result.Should().Be(_testItem.Id);
@@ -106,11 +106,11 @@ public class CatalogTypeServiceTest
                 s =>
                     s.UpdateAsync(
                         It.Is<int>(i => i == _testItem.Id),
-                        It.Is<string>(i => i == _testItem.Type)))
+                        It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(testResult);
 
         // act
-        var result = await _catalogTypeService.UpdateAsync(_testItem.Id, _testItem.Type);
+        var result = await _catalogTypeService.UpdateAsync(_testItem.Id, _testItem.Name);
 
         // assert
         result.Should().Be(testResult);
@@ -125,11 +125,11 @@ public class CatalogTypeServiceTest
                 s =>
                     s.UpdateAsync(
                         It.Is<int>(i => i == _testItem.Id),
-                        It.Is<string>(i => i == _testItem.Type)))
+                        It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(_testItem.Id);
 
         // act
-        var result = await _catalogTypeService.UpdateAsync(_testItem.Id, _testItem.Type);
+        var result = await _catalogTypeService.UpdateAsync(_testItem.Id, _testItem.Name);
 
         // assert
         result.Should().Be(_testItem.Id);

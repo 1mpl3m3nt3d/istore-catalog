@@ -20,8 +20,9 @@ public class CatalogItemRepository : ICatalogItemRepository
 
     public async Task<int?> AddAsync(
         string name,
-        decimal price,
         int availableStock,
+        decimal price,
+        int warranty,
         int catalogBrandId,
         int catalogTypeId,
         string? description = null,
@@ -33,8 +34,9 @@ public class CatalogItemRepository : ICatalogItemRepository
         {
             Id = id,
             Name = name,
-            Price = price,
             AvailableStock = availableStock,
+            Price = price,
+            Warranty = warranty,
             CatalogBrandId = catalogBrandId,
             CatalogTypeId = catalogTypeId,
             Description = description ?? null,
@@ -69,8 +71,9 @@ public class CatalogItemRepository : ICatalogItemRepository
     public async Task<int?> UpdateAsync(
         int id,
         string? name = null,
-        decimal? price = null,
         int? availableStock = null,
+        decimal? price = null,
+        int? warranty = null,
         int? catalogBrandId = null,
         int? catalogTypeId = null,
         string? description = null,
@@ -81,8 +84,9 @@ public class CatalogItemRepository : ICatalogItemRepository
         if (item != null)
         {
             item.Name = name ?? item.Name;
-            item.Price = price ?? item.Price;
             item.AvailableStock = availableStock ?? item.AvailableStock;
+            item.Price = price ?? item.Price;
+            item.Warranty = warranty ?? item.Warranty;
             item.CatalogBrandId = catalogBrandId ?? item.CatalogBrandId;
             item.CatalogTypeId = catalogTypeId ?? item.CatalogTypeId;
             item.Description = description ?? item.Description;

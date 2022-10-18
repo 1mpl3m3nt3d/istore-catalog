@@ -8,11 +8,14 @@ public class UpdateProductRequest
 
     public string? Name { get; set; }
 
-    [Range(0, double.MaxValue, ErrorMessage = "You should correctly specify the Price")]
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Available Stock value")]
+    public int? AvailableStock { get; set; }
+
+    [Range(0, double.MaxValue, ErrorMessage = "You should correctly specify the Price value")]
     public decimal? Price { get; set; }
 
-    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Available Stock")]
-    public int? AvailableStock { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Warranty value")]
+    public int? Warranty { get; set; }
 
     public string? Description { get; set; }
 

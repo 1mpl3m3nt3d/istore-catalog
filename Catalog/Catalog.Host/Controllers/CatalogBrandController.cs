@@ -27,7 +27,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Add(CreateBrandRequest request)
     {
-        var result = await _catalogBrandService.AddAsync(request.Brand);
+        var result = await _catalogBrandService.AddAsync(request.Name);
 
         if (result != null)
         {
@@ -61,7 +61,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Update(UpdateBrandRequest request)
     {
-        var result = await _catalogBrandService.UpdateAsync(request.Id, request.Brand);
+        var result = await _catalogBrandService.UpdateAsync(request.Id, request.Name);
 
         if (result != null)
         {

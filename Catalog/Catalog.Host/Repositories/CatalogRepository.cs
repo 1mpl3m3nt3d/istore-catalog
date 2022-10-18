@@ -18,9 +18,9 @@ public class CatalogRepository : ICatalogRepository
         _logger = logger;
     }
 
-    public async Task<IEnumerable<CatalogBrand>?> GetBrandsAsync()
+    public async Task<IEnumerable<CatalogBrand?>?> GetBrandsAsync()
     {
-        var result = await _dbContext.CatalogBrands.OrderBy(cb => cb.Brand).ToListAsync();
+        var result = await _dbContext.CatalogBrands.OrderBy(cb => cb.Name).ToListAsync();
 
         return result;
     }
@@ -35,7 +35,7 @@ public class CatalogRepository : ICatalogRepository
         return result;
     }
 
-    public async Task<PaginatedItems<CatalogItem>?> GetByPageAsync(
+    public async Task<PaginatedItems<CatalogItem?>?> GetByPageAsync(
         int pageSize,
         int pageIndex,
         int[]? brandFilter = null,
@@ -64,10 +64,10 @@ public class CatalogRepository : ICatalogRepository
             .Take(pageSize)
             .ToListAsync();
 
-        return new PaginatedItems<CatalogItem>() { TotalCount = totalItems, Data = itemsOnPage };
+        return new PaginatedItems<CatalogItem?>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<IEnumerable<CatalogItem>?> GetProductsAsync()
+    public async Task<IEnumerable<CatalogItem?>?> GetProductsAsync()
     {
         var result = await _dbContext.CatalogItems
             .OrderBy(ci => ci.CatalogBrandId)
@@ -79,9 +79,9 @@ public class CatalogRepository : ICatalogRepository
         return result;
     }
 
-    public async Task<IEnumerable<CatalogType>?> GetTypesAsync()
+    public async Task<IEnumerable<CatalogType?>?> GetTypesAsync()
     {
-        var result = await _dbContext.CatalogTypes.OrderBy(ct => ct.Type).ToListAsync();
+        var result = await _dbContext.CatalogTypes.OrderBy(ct => ct.Name).ToListAsync();
 
         return result;
     }

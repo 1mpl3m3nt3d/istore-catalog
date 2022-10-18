@@ -7,5 +7,5 @@ public class UpdateTypeRequest
     public int Id { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Type Name")]
-    public string Type { get; set; } = null!;
+    public string Name { get; set; } = null!;
 }

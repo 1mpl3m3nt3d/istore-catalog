@@ -18,11 +18,11 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(string brand)
+    public async Task<int?> AddAsync(string name)
     {
         var id = await _dbContext.CatalogBrands.CountAsync() + 1; // entities ids starts with 1
 
-        var addItem = new CatalogBrand { Id = id, Brand = brand, };
+        var addItem = new CatalogBrand { Id = id, Name = name, };
 
         var item = await _dbContext.CatalogBrands.AddAsync(addItem);
 
@@ -49,13 +49,13 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         }
     }
 
-    public async Task<int?> UpdateAsync(int id, string brand)
+    public async Task<int?> UpdateAsync(int id, string name)
     {
         var item = await _dbContext.CatalogBrands.FirstOrDefaultAsync(cb => cb.Id == id);
 
         if (item != null)
         {
-            item.Brand = brand;
+            item.Name = name;
 
             _dbContext.CatalogBrands.Update(item);
 

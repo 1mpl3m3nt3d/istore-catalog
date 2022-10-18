@@ -7,5 +7,5 @@ public class UpdateBrandRequest
     public int Id { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Brand Name")]
-    public string Brand { get; set; } = null!;
+    public string Name { get; set; } = null!;
 }

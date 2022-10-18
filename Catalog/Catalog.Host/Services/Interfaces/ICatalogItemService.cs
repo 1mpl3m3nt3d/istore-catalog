@@ -4,8 +4,9 @@ public interface ICatalogItemService
 {
     Task<int?> AddAsync(
         string name,
-        decimal price,
         int availableStock,
+        decimal price,
+        int warranty,
         int catalogBrandId,
         int catalogTypeId,
         string? description = null,
@@ -16,8 +17,9 @@ public interface ICatalogItemService
     Task<int?> UpdateAsync(
         int id,
         string? name = null,
-        decimal? price = null,
         int? availableStock = null,
+        decimal? price = null,
+        int? warranty = null,
         int? catalogBrandId = null,
         int? catalogTypeId = null,
         string? description = null,

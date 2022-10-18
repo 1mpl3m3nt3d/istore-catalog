@@ -21,7 +21,7 @@ public class CatalogBrandServiceTest
         _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
         _logger = new Mock<ILogger<CatalogBrandService>>();
 
-        _testItem = new CatalogBrand() { Id = 1, Brand = "Brand", };
+        _testItem = new CatalogBrand() { Id = 1, Name = "Brand", };
 
         _dbContextWrapper.Setup(s => s.BeginTransactionAsync(It.IsAny<CancellationToken>())).ReturnsAsync(_dbContextTransaction.Object);
 
@@ -38,11 +38,11 @@ public class CatalogBrandServiceTest
         int? testResult = null;
 
         _catalogBrandRepository
-            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Brand)))
+            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(testResult);
 
         // act
-        var result = await _catalogBrandService.AddAsync(_testItem.Brand);
+        var result = await _catalogBrandService.AddAsync(_testItem.Name);
 
         // assert
         result.Should().Be(testResult);
@@ -53,11 +53,11 @@ public class CatalogBrandServiceTest
     {
         // arrange
         _catalogBrandRepository
-            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Brand)))
+            .Setup(s => s.AddAsync(It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(_testItem.Id);
 
         // act
-        var result = await _catalogBrandService.AddAsync(_testItem.Brand);
+        var result = await _catalogBrandService.AddAsync(_testItem.Name);
 
         // assert
         result.Should().Be(_testItem.Id);
@@ -106,11 +106,11 @@ public class CatalogBrandServiceTest
                 s =>
                     s.UpdateAsync(
                         It.Is<int>(i => i == _testItem.Id),
-                        It.Is<string>(i => i == _testItem.Brand)))
+                        It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(testResult);
 
         // act
-        var result = await _catalogBrandService.UpdateAsync(_testItem.Id, _testItem.Brand);
+        var result = await _catalogBrandService.UpdateAsync(_testItem.Id, _testItem.Name);
 
         // assert
         result.Should().Be(testResult);
@@ -125,11 +125,11 @@ public class CatalogBrandServiceTest
                 s =>
                     s.UpdateAsync(
                         It.Is<int>(i => i == _testItem.Id),
-                        It.Is<string>(i => i == _testItem.Brand)))
+                        It.Is<string>(i => i == _testItem.Name)))
             .ReturnsAsync(_testItem.Id);
 
         // act
-        var result = await _catalogBrandService.UpdateAsync(_testItem.Id, _testItem.Brand);
+        var result = await _catalogBrandService.UpdateAsync(_testItem.Id, _testItem.Name);
 
         // assert
         result.Should().Be(_testItem.Id);

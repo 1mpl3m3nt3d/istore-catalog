@@ -29,8 +29,9 @@ public class CatalogItemController : ControllerBase
     {
         var result = await _catalogItemService.AddAsync(
             request.Name,
-            request.Price,
             request.AvailableStock,
+            request.Price,
+            request.Warranty,
             request.CatalogBrandId,
             request.CatalogTypeId,
             request.Description,
@@ -71,8 +72,9 @@ public class CatalogItemController : ControllerBase
         var result = await _catalogItemService.UpdateAsync(
             request.Id,
             request.Name,
-            request.Price,
             request.AvailableStock,
+            request.Price,
+            request.Warranty,
             request.CatalogBrandId,
             request.CatalogTypeId,
             request.Description,

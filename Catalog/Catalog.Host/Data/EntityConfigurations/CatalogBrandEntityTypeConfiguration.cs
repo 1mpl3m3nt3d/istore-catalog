@@ -11,45 +11,45 @@ public class CatalogBrandEntityTypeConfiguration
             .ToTable("CatalogBrand");
 
         builder
-            .HasKey(ci => ci.Id);
+            .HasKey(cb => cb.Id);
 
         builder
-            .Property(ci => ci.Id)
+            .Property(cb => cb.Id)
             .UseHiLo("catalog_brand_hilo")
             .IsRequired();
 
         builder
-            .Property(cb => cb.Brand)
+            .Property(cb => cb.Name)
             .IsRequired()
             .HasMaxLength(100);
 
         builder
             .HasData(new List<CatalogBrand>()
         {
-            new CatalogBrand() { Id = 1, Brand = "A4Tech" },                  // 1
-            new CatalogBrand() { Id = 2, Brand = "AMD" },                     // 2
-            new CatalogBrand() { Id = 3, Brand = "Aorus" },                   // 3
-            new CatalogBrand() { Id = 4, Brand = "Apple" },                   // 4
-            new CatalogBrand() { Id = 5, Brand = "Asus" },                    // 5
-            new CatalogBrand() { Id = 6, Brand = "Bloody" },                  // 6
-            new CatalogBrand() { Id = 7, Brand = "Edifier" },                 // 7
-            new CatalogBrand() { Id = 8, Brand = "Gigabyte" },                // 8
-            new CatalogBrand() { Id = 9, Brand = "Hator" },                   // 9
-            new CatalogBrand() { Id = 10, Brand = "Honor" },                   // 10
-            new CatalogBrand() { Id = 11, Brand = "Huawei" },                  // 11
-            new CatalogBrand() { Id = 12, Brand = "HyperX" },                  // 12
-            new CatalogBrand() { Id = 13, Brand = "Intel" },                   // 13
-            new CatalogBrand() { Id = 14, Brand = "Keychron" },                // 14
-            new CatalogBrand() { Id = 15, Brand = "Kingston" },                // 15
-            new CatalogBrand() { Id = 16, Brand = "Logitech" },                // 16
-            new CatalogBrand() { Id = 17, Brand = "MSI" },                     // 17
-            new CatalogBrand() { Id = 18, Brand = "Razer" },                   // 18
-            new CatalogBrand() { Id = 19, Brand = "Samsung" },                 // 19
-            new CatalogBrand() { Id = 20, Brand = "Seagate" },                 // 20
-            new CatalogBrand() { Id = 21, Brand = "Sony" },                    // 21
-            new CatalogBrand() { Id = 22, Brand = "SteelSeries" },             // 22
-            new CatalogBrand() { Id = 23, Brand = "Varmilo" },                 // 23
-            new CatalogBrand() { Id = 24, Brand = "Western Digital" },         // 24
+            new CatalogBrand() { Id = 1, Name = "A4Tech" },
+            new CatalogBrand() { Id = 2, Name = "AMD" },
+            new CatalogBrand() { Id = 3, Name = "Aorus" },
+            new CatalogBrand() { Id = 4, Name = "Apple" },
+            new CatalogBrand() { Id = 5, Name = "Asus" },
+            new CatalogBrand() { Id = 6, Name = "Bloody" },
+            new CatalogBrand() { Id = 7, Name = "Edifier" },
+            new CatalogBrand() { Id = 8, Name = "Gigabyte" },
+            new CatalogBrand() { Id = 9, Name = "Hator" },
+            new CatalogBrand() { Id = 10, Name = "Honor" },
+            new CatalogBrand() { Id = 11, Name = "Huawei" },
+            new CatalogBrand() { Id = 12, Name = "HyperX" },
+            new CatalogBrand() { Id = 13, Name = "Intel" },
+            new CatalogBrand() { Id = 14, Name = "Keychron" },
+            new CatalogBrand() { Id = 15, Name = "Kingston" },
+            new CatalogBrand() { Id = 16, Name = "Logitech" },
+            new CatalogBrand() { Id = 17, Name = "MSI" },
+            new CatalogBrand() { Id = 18, Name = "Razer" },
+            new CatalogBrand() { Id = 19, Name = "Samsung" },
+            new CatalogBrand() { Id = 20, Name = "Seagate" },
+            new CatalogBrand() { Id = 21, Name = "Sony" },
+            new CatalogBrand() { Id = 22, Name = "SteelSeries" },
+            new CatalogBrand() { Id = 23, Name = "Varmilo" },
+            new CatalogBrand() { Id = 24, Name = "Western Digital" },
         });
     }
 }

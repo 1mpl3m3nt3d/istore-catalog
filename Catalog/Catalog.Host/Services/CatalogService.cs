@@ -25,18 +25,22 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
 
     public async Task<IEnumerable<CatalogBrandDto>?> GetBrandsAsync()
     {
-        return await ExecuteSafeAsync(
-            async () =>
+        return await ExecuteSafeAsync(async () =>
+        {
+            var result = await _catalogRepository.GetBrandsAsync();
+
+            if (result == null || !result.Any())
             {
-                var result = await _catalogRepository.GetBrandsAsync();
+                throw new BusinessException("Brands couldn't be fetched");
+            }
 
-                if (result == null)
-                {
-                    return null;
-                }
+            var mapped = result.Select(cb => _mapper.Map<CatalogBrandDto>(cb)).ToList();
 
-                return _mapper.Map<IEnumerable<CatalogBrandDto>?>(result);
-            });
+            return mapped;
+
+            // another "uncorrect" variant to map
+            //return _mapper.Map<IEnumerable<CatalogBrandDto>?>(result);
+        });
     }
 
     public async Task<PaginatedItemsResponse<CatalogItemDto>?> GetCatalogItemsAsync(
@@ -48,14 +52,14 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         return await ExecuteSafeAsync(async () =>
         {
             var result = await _catalogRepository.GetByPageAsync(
-                pageSize,
-                pageIndex,
-                brandIdFilter,
-                typeIdFilter);
+            pageSize,
+            pageIndex,
+            brandIdFilter,
+            typeIdFilter);
 
-            if (result == null)
+            if (result == null || !result.Data.Any())
             {
-                return null;
+                throw new BusinessException("Catalog Items couldn't be fetched");
             }
 
             return new PaginatedItemsResponse<CatalogItemDto>()
@@ -70,49 +74,56 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
 
     public async Task<CatalogItemDto?> GetCatalogItemByIdAsync(int id)
     {
-        return await ExecuteSafeAsync(
-            async () =>
+        return await ExecuteSafeAsync(async () =>
+        {
+            var result = await _catalogRepository.GetByIdAsync(id);
+
+            if (result == null)
             {
-                var result = await _catalogRepository.GetByIdAsync(id);
+                throw new BusinessException($"Catalog Item with id {id} couldn't be fetched");
+            }
 
-                if (result == null)
-                {
-                    return null;
-                }
-
-                return _mapper.Map<CatalogItemDto>(result);
-            });
+            return _mapper.Map<CatalogItemDto>(result);
+        });
     }
 
     public async Task<IEnumerable<CatalogItemDto>?> GetProductsAsync()
     {
-        return await ExecuteSafeAsync(
-            async () =>
+        return await ExecuteSafeAsync(async () =>
+        {
+            var result = await _catalogRepository.GetProductsAsync();
+
+            if (result == null || !result.Any())
             {
-                var result = await _catalogRepository.GetProductsAsync();
+                throw new BusinessException("Products couldn't be fetched");
+            }
 
-                if (result == null)
-                {
-                    return null;
-                }
+            var mapped = result.Select(ci => _mapper.Map<CatalogItemDto>(ci)).ToList();
 
-                return _mapper.Map<IEnumerable<CatalogItemDto>?>(result);
-            });
+            return mapped;
+
+            // another "uncorrect" variant to map
+            //return _mapper.Map<IEnumerable<CatalogItemDto>?>(result);
+        });
     }
 
     public async Task<IEnumerable<CatalogTypeDto>?> GetTypesAsync()
     {
-        return await ExecuteSafeAsync(
-            async () =>
+        return await ExecuteSafeAsync(async () =>
+        {
+            var result = await _catalogRepository.GetTypesAsync();
+
+            if (result == null || !result.Any())
             {
-                var result = await _catalogRepository.GetTypesAsync();
+                throw new BusinessException("Types couldn't be fetched");
+            }
 
-                if (result == null)
-                {
-                    return null;
-                }
+            var mapped = result.Select(ct => _mapper.Map<CatalogTypeDto>(ct)).ToList();
 
-                return _mapper.Map<IEnumerable<CatalogTypeDto>?>(result);
-            });
+            return mapped;
+
+            // another "uncorrect" variant to map
+            //return _mapper.Map<IEnumerable<CatalogTypeDto>?>(result);
+        });
     }
 }

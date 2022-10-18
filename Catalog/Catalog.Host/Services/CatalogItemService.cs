@@ -19,8 +19,9 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
 
     public async Task<int?> AddAsync(
         string name,
-        decimal price,
         int availableStock,
+        decimal price,
+        int warranty,
         int catalogBrandId,
         int catalogTypeId,
         string? description = null,
@@ -30,8 +31,9 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
             async () =>
                 await _catalogItemRepository.AddAsync(
                     name,
-                    price,
                     availableStock,
+                    price,
+                    warranty,
                     catalogBrandId,
                     catalogTypeId,
                     description,
@@ -46,8 +48,9 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
     public async Task<int?> UpdateAsync(
         int id,
         string? name = null,
-        decimal? price = null,
         int? availableStock = null,
+        decimal? price = null,
+        int? warranty = null,
         int? catalogBrandId = null,
         int? catalogTypeId = null,
         string? description = null,
@@ -58,8 +61,9 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
                 await _catalogItemRepository.UpdateAsync(
                     id,
                     name,
-                    price,
                     availableStock,
+                    price,
+                    warranty,
                     catalogBrandId,
                     catalogTypeId,
                     description,

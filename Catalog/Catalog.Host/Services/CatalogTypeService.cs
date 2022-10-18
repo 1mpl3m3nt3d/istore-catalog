@@ -17,9 +17,9 @@ public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalo
         _catalogTypeRepository = catalogTypeRepository;
     }
 
-    public async Task<int?> AddAsync(string type)
+    public async Task<int?> AddAsync(string name)
     {
-        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.AddAsync(type));
+        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.AddAsync(name));
     }
 
     public async Task<int?> DeleteAsync(int id)
@@ -27,8 +27,8 @@ public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalo
         return await ExecuteSafeAsync(async () => await _catalogTypeRepository.DeleteAsync(id));
     }
 
-    public async Task<int?> UpdateAsync(int id, string type)
+    public async Task<int?> UpdateAsync(int id, string name)
     {
-        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.UpdateAsync(id, type));
+        return await ExecuteSafeAsync(async () => await _catalogTypeRepository.UpdateAsync(id, name));
     }
 }

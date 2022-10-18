@@ -5,17 +5,17 @@ namespace Catalog.Host.Repositories.Interfaces;
 
 public interface ICatalogRepository
 {
-    Task<IEnumerable<CatalogBrand>?> GetBrandsAsync();
+    Task<IEnumerable<CatalogBrand?>?> GetBrandsAsync();
 
     Task<CatalogItem?> GetByIdAsync(int id);
 
-    Task<PaginatedItems<CatalogItem>?> GetByPageAsync(
+    Task<PaginatedItems<CatalogItem?>?> GetByPageAsync(
         int pageSize,
         int pageIndex,
         int[]? brandFilter = null,
         int[]? typeFilter = null);
 
-    Task<IEnumerable<CatalogItem>?> GetProductsAsync();
+    Task<IEnumerable<CatalogItem?>?> GetProductsAsync();
 
-    Task<IEnumerable<CatalogType>?> GetTypesAsync();
+    Task<IEnumerable<CatalogType?>?> GetTypesAsync();
 }

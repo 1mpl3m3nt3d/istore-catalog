@@ -1,3 +1,7 @@
+using Catalog.Host.Models.Responses;
+
+using Infrastructure.Exceptions;
+
 namespace Catalog.UnitTests.Services;
 
 public class CatalogServiceTest
@@ -35,29 +39,44 @@ public class CatalogServiceTest
     public async Task GetBrandsAsync_Failed()
     {
         // arrange
+        string? exMessage = null;
+        IEnumerable<CatalogBrandDto>? result = null;
+
         _catalogRepository
             .Setup(s => s.GetBrandsAsync())
-            .ReturnsAsync((Func<IEnumerable<CatalogBrand>?>)null!);
+            .ReturnsAsync((Func<IEnumerable<CatalogBrand?>?>)null!);
 
         // act
-        var result = await _catalogService.GetBrandsAsync();
+        try
+        {
+            result = await _catalogService.GetBrandsAsync();
+        }
+        catch (BusinessException ex)
+        {
+            exMessage = ex.Message;
+        }
 
         // assert
         result?.Should().BeNull();
+        exMessage?.Should().Match("Brands couldn't be fetched");
     }
 
     [Fact]
     public async Task GetBrandsAsync_Success()
     {
         // arrange
+        var catalogBrand = new CatalogBrand() { Id = 1, Name = "Brand", };
+
+        var catalogBrandDto = new CatalogBrandDto() { Id = 1, Name = "Brand", };
+
         IEnumerable<CatalogBrand> catalogBrandsSuccess = new List<CatalogBrand>()
         {
-            new CatalogBrand() { Id = 1, Brand = "Brand", },
+            catalogBrand,
         };
 
         IEnumerable<CatalogBrandDto> catalogBrandsDtoSuccess = new List<CatalogBrandDto>()
         {
-            new CatalogBrandDto() { Id = 1, Brand = "Brand", },
+            catalogBrandDto,
         };
 
         _catalogRepository.Setup(s => s.GetBrandsAsync()).ReturnsAsync(catalogBrandsSuccess);
@@ -65,15 +84,24 @@ public class CatalogServiceTest
         _mapper
             .Setup(
                 s =>
+                    s.Map<CatalogBrandDto>(
+                        It.Is<CatalogBrand>(ct => ct.Equals(catalogBrand))))
+            .Returns(catalogBrandDto);
+
+        /*
+        _mapper
+            .Setup(
+                s =>
                     s.Map<IEnumerable<CatalogBrandDto>?>(
                         It.Is<IEnumerable<CatalogBrand>?>(i => i!.Equals(catalogBrandsSuccess))))
             .Returns(catalogBrandsDtoSuccess);
+        */
 
         // act
         var result = await _catalogService.GetBrandsAsync();
 
         // assert
-        result?.Should().BeSameAs(catalogBrandsDtoSuccess);
+        result?.Should().BeEquivalentTo(catalogBrandsDtoSuccess);
     }
 
     [Fact]
@@ -84,7 +112,10 @@ public class CatalogServiceTest
         var testPageSize = 10000;
         var brandIdFilter = Array.Empty<int>();
         var typeIdFilter = Array.Empty<int>();
-        PaginatedItems<CatalogItem> item = null!;
+        PaginatedItems<CatalogItem?>? item = null!;
+
+        string? exMessage = null;
+        PaginatedItemsResponse<CatalogItemDto>? result = null;
 
         _catalogRepository
             .Setup(
@@ -97,10 +128,18 @@ public class CatalogServiceTest
             .ReturnsAsync(item);
 
         // act
-        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
+        try
+        {
+            result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
+        }
+        catch (BusinessException ex)
+        {
+            exMessage = ex.Message;
+        }
 
         // assert
-        result.Should().BeNull();
+        result?.Should().BeNull();
+        exMessage?.Should().Match("Catalog Items couldn't be fetched");
     }
 
     [Fact]
@@ -117,9 +156,9 @@ public class CatalogServiceTest
 
         var catalogItemDtoSuccess = new CatalogItemDto() { Id = 0, Name = "Product", };
 
-        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogItem>()
+        var pagingPaginatedItemsSuccess = new PaginatedItems<CatalogItem?>()
         {
-            Data = new List<CatalogItem>() { catalogItemSuccess, },
+            Data = new List<CatalogItem?>() { catalogItemSuccess, },
             TotalCount = testTotalCount,
         };
 
@@ -144,7 +183,7 @@ public class CatalogServiceTest
         var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
 
         // assert
-        result.Should().NotBeNull();
+        result?.Should().NotBeNull();
         result?
             .Data.Should()
             .BeEquivalentTo(new List<CatalogItemDto>() { catalogItemDtoSuccess });
@@ -157,19 +196,36 @@ public class CatalogServiceTest
     public async Task GetProductByIdAsync_Failed()
     {
         // arrange
-        var catalogItemFailed = new CatalogItem() { };
+        string? exMessage = null;
+        CatalogItemDto? result = null;
 
-        var catalogItemDtoFailed = new CatalogItemDto() { };
+        var catalogItemFailed = new CatalogItem()
+        {
+            Id = 1,
+            Name = "Name",
+            AvailableStock = 100,
+            Price = 1000,
+            Warranty = 12,
+            Description = "Description",
+        };
 
         _catalogRepository
             .Setup(s => s.GetByIdAsync(It.Is<int>(i => i == catalogItemFailed.Id)))
-            .Returns((Func<CatalogItem>)null!);
+            .ReturnsAsync((Func<CatalogItem?>)null!);
 
         // act
-        var result = await _catalogService.GetCatalogItemByIdAsync(catalogItemFailed.Id);
+        try
+        {
+            result = await _catalogService.GetCatalogItemByIdAsync(catalogItemFailed.Id);
+        }
+        catch (BusinessException ex)
+        {
+            exMessage = ex.Message;
+        }
 
         // assert
         result?.Should().BeNull();
+        exMessage?.Should().Match($"Catalog Item with id {catalogItemFailed.Id} couldn't be fetched");
     }
 
     [Fact]
@@ -180,8 +236,9 @@ public class CatalogServiceTest
         {
             Id = 1,
             Name = "Name",
-            Price = 1000,
             AvailableStock = 100,
+            Price = 1000,
+            Warranty = 12,
             Description = "Description",
         };
 
@@ -189,8 +246,9 @@ public class CatalogServiceTest
         {
             Id = 1,
             Name = "Name",
-            Price = 1000,
             AvailableStock = 100,
+            Price = 1000,
+            Warranty = 12,
             Description = "Description",
         };
 
@@ -209,43 +267,61 @@ public class CatalogServiceTest
     public async Task GetProductsAsync_Failed()
     {
         // arrange
+        string? exMessage = null;
+        IEnumerable<CatalogItemDto>? result = null;
+
         _catalogRepository
             .Setup(s => s.GetProductsAsync())
-            .ReturnsAsync((Func<IEnumerable<CatalogItem>?>)null!);
+            .ReturnsAsync((Func<IEnumerable<CatalogItem?>?>)null!);
 
         // act
-        var result = await _catalogService.GetProductsAsync();
+        try
+        {
+            result = await _catalogService.GetProductsAsync();
+        }
+        catch (BusinessException ex)
+        {
+            exMessage = ex.Message;
+        }
 
         // assert
         result?.Should().BeNull();
+        exMessage?.Should().Match("Products couldn't be fetched");
     }
 
     [Fact]
     public async Task GetProductsAsync_Success()
     {
         // arrange
+
+        var catalogItem = new CatalogItem()
+        {
+            Id = 1,
+            Name = "Name",
+            AvailableStock = 100,
+            Price = 1000,
+            Warranty = 12,
+            Description = "Description",
+        };
+
+        var catalogItemDto = new CatalogItemDto()
+        {
+            Id = 1,
+            Name = "Name",
+            AvailableStock = 100,
+            Price = 1000,
+            Warranty = 12,
+            Description = "Description",
+        };
+
         IEnumerable<CatalogItem> catalogItemsSuccess = new List<CatalogItem>()
         {
-            new CatalogItem()
-            {
-                Id = 1,
-                Name = "Name",
-                Price = 1000,
-                AvailableStock = 100,
-                Description = "Description",
-            },
+            catalogItem,
         };
 
         IEnumerable<CatalogItemDto> catalogItemsDtoSuccess = new List<CatalogItemDto>()
         {
-            new CatalogItemDto()
-            {
-                Id = 1,
-                Name = "Name",
-                Price = 1000,
-                AvailableStock = 100,
-                Description = "Description",
-            },
+            catalogItemDto,
         };
 
         _catalogRepository
@@ -255,48 +331,69 @@ public class CatalogServiceTest
         _mapper
             .Setup(
                 s =>
+                s.Map<CatalogItemDto>(
+                        It.Is<CatalogItem>(ct => ct.Equals(catalogItem))))
+            .Returns(catalogItemDto);
+
+        /*
+        _mapper
+            .Setup(
+                s =>
                     s.Map<IEnumerable<CatalogItemDto>?>(
                         It.Is<IEnumerable<CatalogItem>?>(i => i!.Equals(catalogItemsSuccess))))
             .Returns(catalogItemsDtoSuccess);
+        */
 
         // act
         var result = await _catalogService.GetProductsAsync();
 
         // assert
-        result?.Should().BeSameAs(catalogItemsDtoSuccess);
+        result?.Should().BeEquivalentTo(catalogItemsDtoSuccess);
     }
 
     [Fact]
     public async Task GetTypesAsync_Failed()
     {
         // arrange
-        IEnumerable<CatalogType> catalogTypesFailed = new List<CatalogType>() { };
-
-        IEnumerable<CatalogTypeDto> catalogTypesDtoFailed = new List<CatalogTypeDto>() { };
+        string? exMessage = null;
+        IEnumerable<CatalogTypeDto>? result = null;
 
         _catalogRepository
             .Setup(s => s.GetTypesAsync())
-            .ReturnsAsync((Func<IEnumerable<CatalogType>?>)null!);
+            .ReturnsAsync((Func<IEnumerable<CatalogType?>?>)null!);
 
         // act
-        var result = await _catalogService.GetTypesAsync();
+        try
+        {
+            result = await _catalogService.GetTypesAsync();
+        }
+        catch (BusinessException ex)
+        {
+            exMessage = ex.Message;
+        }
 
         // assert
         result?.Should().BeNull();
+        exMessage?.Should().Match("Types couldn't be fetched");
     }
 
     [Fact]
     public async Task GetTypesAsync_Success()
     {
         // arrange
+
+        var catalogType = new CatalogType() { Id = 1, Name = "Type", };
+
+        var catalogTypeDto = new CatalogTypeDto() { Id = 1, Name = "Type", };
+
         IEnumerable<CatalogType> catalogTypesSuccess = new List<CatalogType>()
         {
-            new CatalogType() { Id = 1, Type = "Type", },
+            catalogType,
         };
 
         IEnumerable<CatalogTypeDto> catalogTypesDtoSuccess = new List<CatalogTypeDto>()
         {
-            new CatalogTypeDto() { Id = 1, Type = "Type", },
+            catalogTypeDto,
         };
 
         _catalogRepository.Setup(s => s.GetTypesAsync()).ReturnsAsync(catalogTypesSuccess);
@@ -304,14 +401,23 @@ public class CatalogServiceTest
         _mapper
             .Setup(
                 s =>
+                    s.Map<CatalogTypeDto>(
+                        It.Is<CatalogType>(ct => ct.Equals(catalogType))))
+            .Returns(catalogTypeDto);
+
+        /*
+        _mapper
+            .Setup(
+                s =>
                     s.Map<IEnumerable<CatalogTypeDto>?>(
                         It.Is<IEnumerable<CatalogType>?>(i => i!.Equals(catalogTypesSuccess))))
             .Returns(catalogTypesDtoSuccess);
+        */
 
         // act
         var result = await _catalogService.GetTypesAsync();
 
         // assert
-        result?.Should().BeSameAs(catalogTypesDtoSuccess);
+        result?.Should().BeEquivalentTo(catalogTypesDtoSuccess);
     }
 }

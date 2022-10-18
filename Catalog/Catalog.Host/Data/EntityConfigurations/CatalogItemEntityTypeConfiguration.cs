@@ -21,11 +21,15 @@ public class CatalogItemEntityTypeConfiguration
             .HasMaxLength(350);
 
         builder
+            .Property(ci => ci.AvailableStock)
+            .IsRequired(true);
+
+        builder
             .Property(ci => ci.Price)
             .IsRequired(true);
 
         builder
-            .Property(ci => ci.AvailableStock)
+            .Property(ci => ci.Warranty)
             .IsRequired(true);
 
         builder
@@ -61,6 +65,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "R1700BTs",
                 Price = 4599.00M,
                 PictureFileName = "r1700bts.webp",
+                Warranty = 12,
             },
             new CatalogItem
             {
@@ -75,6 +80,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "C270",
                 Price = 1299.00M,
                 PictureFileName = "c270hd.webp",
+                Warranty = 12,
             },
             new CatalogItem
             {
@@ -88,6 +94,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "K3 Version 2",
                 Price = 2990.00M,
                 PictureFileName = "k3version2.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -101,6 +108,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "Q1",
                 Price = 4700.00M,
                 PictureFileName = "q1qmk.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -115,6 +123,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "Q2",
                 Price = 4800.00M,
                 PictureFileName = "q2qmk.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -129,6 +138,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "K360",
                 Price = 1399.00M,
                 PictureFileName = "k360.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -143,6 +153,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "MX Keys Advanced",
                 Price = 2999.00M,
                 PictureFileName = "mxkeys.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -157,6 +168,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "BlackWidow V3",
                 Price = 2799.00M,
                 PictureFileName = "blackwidowv3tkl.webp",
+                Warranty = 24,
             },
             new CatalogItem
             {
@@ -168,6 +180,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "Miya68-C Summit Series EC V2 Daisy",
                 Price = 5900.00M,
                 PictureFileName = "miya68csummitecswitchv2.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -179,6 +192,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "MA87 Lovebirds-You Series EC V2 Daisy",
                 Price = 6100.00M,
                 PictureFileName = "ma87lovebirdsyou.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -190,6 +204,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "MA87M V2 Summit Series R2 EC V2 Daisy",
                 Price = 6000.00M,
                 PictureFileName = "ma87mv2summitr2ecv2daisy.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -201,6 +216,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "VA104S Phoenix Series EC V2 Daisy",
                 Price = 6300.00M,
                 PictureFileName = "va104sphoenix.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -212,6 +228,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "VBM108V2 Crane of Lure Series EC V2 Daisy",
                 Price = 6800.00M,
                 PictureFileName = "vbm108v2craneoflure.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -226,6 +243,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "G305 LIGHTSPEED",
                 Price = 1899.00M,
                 PictureFileName = "g305lightspeedblue.webp",
+                Warranty = 12,
             },
             new CatalogItem
             {
@@ -240,6 +258,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "G502 SE HERO",
                 Price = 1699.00M,
                 PictureFileName = "g502sehero.webp",
+                Warranty = 36,
             },
             new CatalogItem
             {
@@ -254,6 +273,7 @@ public class CatalogItemEntityTypeConfiguration
                 Name = "MX Master 3 Advanced",
                 Price = 2899.00M,
                 PictureFileName = "mxmaster3.webp",
+                Warranty = 36,
             },
         });
     }

@@ -18,11 +18,11 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(string type)
+    public async Task<int?> AddAsync(string name)
     {
         var id = await _dbContext.CatalogTypes.CountAsync() + 1; // entities ids starts with 1
 
-        var addItem = new CatalogType { Id = id, Type = type, };
+        var addItem = new CatalogType { Id = id, Name = name, };
 
         var item = await _dbContext.CatalogTypes.AddAsync(addItem);
 
@@ -49,13 +49,13 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         }
     }
 
-    public async Task<int?> UpdateAsync(int id, string type)
+    public async Task<int?> UpdateAsync(int id, string name)
     {
         var item = await _dbContext.CatalogTypes.FirstOrDefaultAsync(ct => ct.Id == id);
 
         if (item != null)
         {
-            item.Type = type;
+            item.Name = name;
 
             _dbContext.CatalogTypes.Update(item);
 

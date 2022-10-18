@@ -5,13 +5,17 @@ public class CreateProductRequest
     [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Product Name")]
     public string Name { get; set; } = null!;
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Price")]
-    [Range(0, double.MaxValue, ErrorMessage = "You should correctly specify the Price")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Available Stock value")]
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Available Stock value")]
+    public int AvailableStock { get; set; }
+
+    [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Price value")]
+    [Range(0, double.MaxValue, ErrorMessage = "You should correctly specify the Price value")]
     public decimal Price { get; set; }
 
-    [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Available Stock")]
-    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Available Stock")]
-    public int AvailableStock { get; set; }
+    [Required(AllowEmptyStrings = false, ErrorMessage = "You should specify the Available Stock value")]
+    [Range(0, int.MaxValue, ErrorMessage = "You should correctly specify the Warranty value")]
+    public int Warranty { get; set; }
 
     public string? Description { get; set; } = null;
 

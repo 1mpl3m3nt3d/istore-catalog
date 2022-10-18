@@ -25,8 +25,9 @@ public class CatalogItemServiceTest
         {
             Id = 1,
             Name = "Name",
-            Price = 1000,
             AvailableStock = 100,
+            Price = 1000,
+            Warranty = 12,
             CatalogBrandId = 1,
             CatalogTypeId = 1,
             Description = "Description",
@@ -52,8 +53,9 @@ public class CatalogItemServiceTest
                 s =>
                     s.AddAsync(
                         It.Is<string>(i => i == _testItem.Name),
-                        It.Is<decimal>(i => i == _testItem.Price),
                         It.Is<int>(i => i == _testItem.AvailableStock),
+                        It.Is<decimal>(i => i == _testItem.Price),
+                        It.Is<int>(i => i == _testItem.Warranty),
                         It.Is<int>(i => i == _testItem.CatalogBrandId),
                         It.Is<int>(i => i == _testItem.CatalogTypeId),
                         It.Is<string>(i => i == _testItem.Description),
@@ -63,8 +65,9 @@ public class CatalogItemServiceTest
         // act
         var result = await _catalogItemService.AddAsync(
             _testItem.Name,
-            _testItem.Price,
             _testItem.AvailableStock,
+            _testItem.Price,
+            _testItem.Warranty,
             _testItem.CatalogBrandId,
             _testItem.CatalogTypeId,
             _testItem.Description,
@@ -83,8 +86,9 @@ public class CatalogItemServiceTest
                 s =>
                     s.AddAsync(
                         It.Is<string>(i => i == _testItem.Name),
-                        It.Is<decimal>(i => i == _testItem.Price),
                         It.Is<int>(i => i == _testItem.AvailableStock),
+                        It.Is<decimal>(i => i == _testItem.Price),
+                        It.Is<int>(i => i == _testItem.Warranty),
                         It.Is<int>(i => i == _testItem.CatalogBrandId),
                         It.Is<int>(i => i == _testItem.CatalogTypeId),
                         It.Is<string>(i => i == _testItem.Description),
@@ -94,8 +98,9 @@ public class CatalogItemServiceTest
         // act
         var result = await _catalogItemService.AddAsync(
             _testItem.Name,
-            _testItem.Price,
             _testItem.AvailableStock,
+            _testItem.Price,
+            _testItem.Warranty,
             _testItem.CatalogBrandId,
             _testItem.CatalogTypeId,
             _testItem.Description,
@@ -149,8 +154,9 @@ public class CatalogItemServiceTest
                     s.UpdateAsync(
                         It.Is<int>(i => i == _testItem.Id),
                         It.Is<string>(i => i == _testItem.Name),
-                        It.Is<decimal>(i => i == _testItem.Price),
                         It.Is<int>(i => i == _testItem.AvailableStock),
+                        It.Is<decimal>(i => i == _testItem.Price),
+                        It.Is<int>(i => i == _testItem.Warranty),
                         It.Is<int>(i => i == _testItem.CatalogBrandId),
                         It.Is<int>(i => i == _testItem.CatalogTypeId),
                         It.Is<string>(i => i == _testItem.Description),
@@ -161,8 +167,9 @@ public class CatalogItemServiceTest
         var result = await _catalogItemService.UpdateAsync(
             _testItem.Id,
             _testItem.Name,
-            _testItem.Price,
             _testItem.AvailableStock,
+            _testItem.Price,
+            _testItem.Warranty,
             _testItem.CatalogBrandId,
             _testItem.CatalogTypeId,
             _testItem.Description,
@@ -182,8 +189,9 @@ public class CatalogItemServiceTest
                     s.UpdateAsync(
                         It.Is<int>(i => i == _testItem.Id),
                         It.Is<string>(i => i == _testItem.Name),
-                        It.Is<decimal>(i => i == _testItem.Price),
                         It.Is<int>(i => i == _testItem.AvailableStock),
+                        It.Is<decimal>(i => i == _testItem.Price),
+                        It.Is<int>(i => i == _testItem.Warranty),
                         It.Is<int>(i => i == _testItem.CatalogBrandId),
                         It.Is<int>(i => i == _testItem.CatalogTypeId),
                         It.Is<string>(i => i == _testItem.Description),
@@ -194,8 +202,9 @@ public class CatalogItemServiceTest
         var result = await _catalogItemService.UpdateAsync(
             _testItem.Id,
             _testItem.Name,
-            _testItem.Price,
             _testItem.AvailableStock,
+            _testItem.Price,
+            _testItem.Warranty,
             _testItem.CatalogBrandId,
             _testItem.CatalogTypeId,
             _testItem.Description,

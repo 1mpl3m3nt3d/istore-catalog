@@ -27,7 +27,7 @@ public class CatalogTypeController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Add(CreateTypeRequest request)
     {
-        var result = await _catalogTypeService.AddAsync(request.Type);
+        var result = await _catalogTypeService.AddAsync(request.Name);
 
         if (result != null)
         {
@@ -61,7 +61,7 @@ public class CatalogTypeController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Update(UpdateTypeRequest request)
     {
-        var result = await _catalogTypeService.UpdateAsync(request.Id, request.Type);
+        var result = await _catalogTypeService.UpdateAsync(request.Id, request.Name);
 
         if (result != null)
         {
