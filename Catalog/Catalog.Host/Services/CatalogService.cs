@@ -43,7 +43,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<PaginatedItemsResponse<CatalogItemDto>?> GetCatalogItemsAsync(
+    public async Task<PaginatedItemsResponse<CatalogItemDto>?> GetItemsByPageAsync(
         int pageSize = 10,
         int pageIndex = 0,
         int[]? brandIdFilter = null,
@@ -72,7 +72,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<CatalogItemDto?> GetCatalogItemByIdAsync(int id)
+    public async Task<CatalogItemDto?> GetItemByIdAsync(int id)
     {
         return await ExecuteSafeAsync(async () =>
         {
@@ -87,11 +87,11 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<IEnumerable<CatalogItemDto>?> GetProductsAsync()
+    public async Task<IEnumerable<CatalogItemDto>?> GetAllItemsAsync()
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetProductsAsync();
+            var result = await _catalogRepository.GetAllItemsAsync();
 
             if (result == null || !result.Any())
             {

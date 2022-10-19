@@ -15,7 +15,7 @@ public interface ICatalogRepository
         int[]? brandFilter = null,
         int[]? typeFilter = null);
 
-    Task<IEnumerable<CatalogItem?>?> GetProductsAsync();
+    Task<IEnumerable<CatalogItem?>?> GetAllItemsAsync();
 
     Task<IEnumerable<CatalogType?>?> GetTypesAsync();
 }

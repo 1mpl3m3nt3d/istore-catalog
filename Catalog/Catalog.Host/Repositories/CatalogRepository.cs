@@ -67,7 +67,7 @@ public class CatalogRepository : ICatalogRepository
         return new PaginatedItems<CatalogItem?>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<IEnumerable<CatalogItem?>?> GetProductsAsync()
+    public async Task<IEnumerable<CatalogItem?>?> GetAllItemsAsync()
     {
         var result = await _dbContext.CatalogItems
             .OrderBy(ci => ci.CatalogBrandId)

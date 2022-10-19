@@ -45,10 +45,10 @@ public class CatalogBffController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetCatalogItems(PaginatedItemsRequest request)
+    public async Task<IActionResult> GetItems(PaginatedItemsRequest request)
     {
         var result =
-            await _catalogService.GetCatalogItemsAsync(
+            await _catalogService.GetItemsByPageAsync(
                 request.PageSize,
                 request.PageIndex,
                 request.BrandIdFilter,
@@ -68,9 +68,9 @@ public class CatalogBffController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(CatalogItemDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetCatalogItemById(int id)
+    public async Task<IActionResult> GetItem(int id)
     {
-        var result = await _catalogService.GetCatalogItemByIdAsync(id);
+        var result = await _catalogService.GetItemByIdAsync(id);
 
         if (result != null)
         {
@@ -86,9 +86,9 @@ public class CatalogBffController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<CatalogItemDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetAllItems()
     {
-        var result = await _catalogService.GetProductsAsync();
+        var result = await _catalogService.GetAllItemsAsync();
 
         if (result != null && result.Any())
         {

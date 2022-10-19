@@ -130,7 +130,7 @@ public class CatalogServiceTest
         // act
         try
         {
-            result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
+            result = await _catalogService.GetItemsByPageAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
         }
         catch (BusinessException ex)
         {
@@ -180,7 +180,7 @@ public class CatalogServiceTest
             .Returns(catalogItemDtoSuccess);
 
         // act
-        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
+        var result = await _catalogService.GetItemsByPageAsync(testPageSize, testPageIndex, brandIdFilter, typeIdFilter);
 
         // assert
         result?.Should().NotBeNull();
@@ -216,7 +216,7 @@ public class CatalogServiceTest
         // act
         try
         {
-            result = await _catalogService.GetCatalogItemByIdAsync(catalogItemFailed.Id);
+            result = await _catalogService.GetItemByIdAsync(catalogItemFailed.Id);
         }
         catch (BusinessException ex)
         {
@@ -257,7 +257,7 @@ public class CatalogServiceTest
             .ReturnsAsync(catalogItemSuccess);
 
         // act
-        var result = await _catalogService.GetCatalogItemByIdAsync(catalogItemSuccess.Id);
+        var result = await _catalogService.GetItemByIdAsync(catalogItemSuccess.Id);
 
         // assert
         result?.Should().BeSameAs(catalogItemDtoSuccess);
@@ -271,13 +271,13 @@ public class CatalogServiceTest
         IEnumerable<CatalogItemDto>? result = null;
 
         _catalogRepository
-            .Setup(s => s.GetProductsAsync())
+            .Setup(s => s.GetAllItemsAsync())
             .ReturnsAsync((Func<IEnumerable<CatalogItem?>?>)null!);
 
         // act
         try
         {
-            result = await _catalogService.GetProductsAsync();
+            result = await _catalogService.GetAllItemsAsync();
         }
         catch (BusinessException ex)
         {
@@ -325,7 +325,7 @@ public class CatalogServiceTest
         };
 
         _catalogRepository
-            .Setup(s => s.GetProductsAsync())
+            .Setup(s => s.GetAllItemsAsync())
             .ReturnsAsync(catalogItemsSuccess);
 
         _mapper
@@ -345,7 +345,7 @@ public class CatalogServiceTest
         */
 
         // act
-        var result = await _catalogService.GetProductsAsync();
+        var result = await _catalogService.GetAllItemsAsync();
 
         // assert
         result?.Should().BeEquivalentTo(catalogItemsDtoSuccess);
