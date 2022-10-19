@@ -1,7 +1,5 @@
 using Catalog.Host.Models.Responses;
 
-using Infrastructure.Exceptions;
-
 namespace Catalog.UnitTests.Services;
 
 public class CatalogServiceTest

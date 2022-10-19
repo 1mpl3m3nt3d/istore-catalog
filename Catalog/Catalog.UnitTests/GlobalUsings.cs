@@ -13,6 +13,7 @@ global using Catalog.Host.Services.Interfaces;
 
 global using FluentAssertions;
 
+global using Infrastructure.Exceptions;
 global using Infrastructure.Services.Interfaces;
 
 global using Microsoft.EntityFrameworkCore.Storage;
